@@ -1,0 +1,56 @@
+@startuml
+package "pyresparser" {
+  class ResumeParser {
+    - __resume: str | BytesIO
+    - __skills_file
+    - __custom_regex
+    - __matcher
+    - __details: dict
+    - __text_raw: str
+    - __text: str
+    - __nlp
+    - __custom_nlp
+    - __noun_chunks
+    + __init__(resume, skills_file=None, custom_regex=None)
+    + get_extracted_data(): dict
+    - __get_basic_details()
+  }
+}
+
+package "App" {
+  class AppModule <<module>> {
+    + run()
+    + insert_data(...)
+    + insertf_data(...)
+    + pdf_reader(file)
+    + show_pdf(file_path)
+    + course_recommender(course_list)
+  }
+
+  class CoursesModule <<module>> {
+    + ds_course: list
+    + web_course: list
+    + android_course: list
+    + ios_course: list
+    + uiux_course: list
+    + resume_videos: list
+    + interview_videos: list
+  }
+}
+
+class UtilsModule <<module>> {
+  + extract_text()
+  + extract_name()
+  + extract_email()
+  + extract_mobile_number()
+  + extract_skills()
+  + get_number_of_pages()
+  + extract_entities_wih_custom_model()
+  + extract_entity_sections_grad()
+}
+
+AppModule ..> ResumeParser : uses
+ResumeParser ..> UtilsModule : uses
+AppModule ..> CoursesModule : reads
+
+@enduml
